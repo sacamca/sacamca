@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Generador de Historias</title>
+  <!-- Importar fuente Poppins desde Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #d3d3d3; /* Gris suave */
+      text-align: center;
+      padding: 40px;
+      color: #222; /* texto oscuro para buen contraste */
+      margin: 0;
+    }
+
+    h1 {
+      color: #1a1a1a;
+      font-weight: 700;
+      font-size: 2.8rem;
+      text-shadow: 1px 1px 2px #bbb;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    h1::after {
+      position: absolute;
+      right: -60px;
+      top: 0;
+      font-size: 2.8rem;
+      user-select: none;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+      box-shadow: 0 4px 8px rgba(0,123,255,0.4);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      font-weight: 600;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+      box-shadow: 0 6px 12px rgba(0,86,179,0.7);
+    }
+
+    #historia {
+      margin: 30px auto 10px auto;
+      background-color: #fafafa;
+      padding: 25px 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+      max-width: 650px;
+      font-size: 1.25rem;
+      line-height: 1.5;
+      color: #222;
+      min-height: 100px;
+      white-space: pre-wrap;
+      position: relative;
+      font-weight: 500;
+    }
+
+    #historia::before {
+      content: "“";
+      font-size: 3rem;
+      color: #007bff;
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      font-weight: bold;
+      user-select: none;
+    }
+
+    #historia::after {
+      content: "”";
+      font-size: 3rem;
+      color: #007bff;
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+      font-weight: bold;
+      user-select: none;
+    }
+
+    img {
+      max-width: 180px;
+      margin-top: 25px;
+      border-radius: 12px;
+      box-shadow: 0 6px 10px rgba(0,0,0,0.12);
+      user-select: none;
+    }
+
+    #botones-container {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    #copiarBtn {
+      background-color: #28a745;
+      box-shadow: 0 4px 8px rgba(40,167,69,0.4);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      font-weight: 600;
+      min-width: 140px;
+    }
+
+    #copiarBtn:hover {
+      background-color: #1e7e34;
+      box-shadow: 0 6px 12px rgba(30,126,52,0.7);
+    }
+
+    #likeBtn {
+      background-color: #ff4757;
+      box-shadow: 0 4px 8px rgba(255,71,87,0.4);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      font-weight: 600;
+      min-width: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 16px;
+    }
+
+    #likeBtn:hover {
+      background-color: #c0392b;
+      box-shadow: 0 6px 12px rgba(192,57,43,0.7);
+    }
+        #fotoPerfil {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #007bff;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.5);
+    margin: 0 auto 20px auto;
+    display: block;
+    user-select: none;
+    }
+
+  </style>
+  <link rel="icon" href="data:image/jpeg;base64,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" type="image/png" />
+</head>
+<body>
+    <img src="data:image/jpeg;base64,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" alt="Foto de Perfil" id="fotoPerfil" />
+  <h1>Generador de Historias Aleatorias</h1>
+
+  <button onclick="generarHistoria()">Generar Historia</button>
+
+  <div id="historia">
+    Presiona el botón para ver una historia...
+  </div>
+
+  <div id="botones-container">
+    <button id="copiarBtn" onclick="copiarHistoria()">Copiar historia</button>
+    <button id="likeBtn" onclick="sumarLike()">👍 Me gusta <span id="likeCount">0</span></button>
+  </div>
+
+  <script>
+    const historias = [
+      "La carta perdida: En un pequeño pueblo, Clara encontró una carta antigua mientras limpiaba el desván de su abuela. La carta estaba dirigida a un hombre llamado Andrés, alguien de quien nadie en su familia había hablado. Movida por la curiosidad, Clara decidió buscar a Andrés. Tras meses de investigación y varias pistas, lo encontró viviendo en una ciudad cercana. Para sorpresa de ambos, habían estado buscando el uno al otro sin saberlo. Sus abuelos habían sido amantes separados abruptamente por la guerra, y aquella carta era una prueba del amor que jamás se olvidó. Al reencontrarse, Clara y Andrés no solo revivieron un amor antiguo, sino que unieron a sus familias, sanando heridas que la historia había dejado abiertas. Aquella carta perdida se convirtió en símbolo de esperanza, demostrando que, a veces, los secretos del pasado pueden cambiar el futuro.",
+
+"El reloj detenido: Miguel heredó un antiguo reloj de bolsillo de su abuelo, pero nunca funcionó correctamente. La mayoría creía que estaba roto, pero Miguel sentía que había algo especial en ese objeto. Una noche, cansado y melancólico, le dio cuerda por última vez y, de repente, el reloj comenzó a girar hacia atrás, transportándolo a un día concreto de su infancia. Allí revivió momentos que había olvidado: risas con amigos, peleas con su hermano y decisiones que lamentaba. Miguel aprovechó esta oportunidad para corregir pequeños errores, para decir palabras que nunca dijo y para abrazar a quienes amaba. Cuando volvió al presente, el reloj se detuvo nuevamente, pero Miguel supo que siempre podría regresar a ese tiempo si realmente lo necesitaba. Comprendió que el valor del tiempo no está en cuánto dura, sino en cómo lo vivimos y en las segundas oportunidades que nos damos.",
+
+"El jardín olvidado: Lucía, una joven apasionada por la naturaleza, descubrió un jardín abandonado detrás de la vieja biblioteca del pueblo. El lugar estaba cubierto de maleza y flores marchitas, pero ella vio en él un potencial para revivirlo. Día tras día, dedicó horas a limpiar, plantar y cuidar el espacio. Pronto, el jardín comenzó a florecer con rosas, jazmines y girasoles que llenaron el aire con aromas frescos. Con el tiempo, el jardín se convirtió en un refugio para niños, ancianos y artistas que buscaban inspiración y tranquilidad. Allí, se contaban historias, se compartían risas y se tejían nuevas amistades. Lucía aprendió que, a veces, cuidar algo pequeño puede transformar no solo un lugar, sino una comunidad entera. El jardín olvidado se volvió símbolo de renovación y esperanza para todos.",
+
+"El misterio del cuadro: En una galería de arte, apareció un cuadro pintado por un artista desconocido. Julia, una joven detective aficionada al arte, quedó intrigada por un mensaje cifrado que estaba oculto en el lienzo. Decidió investigar, descifrando símbolos y pistas que hablaban de un tesoro escondido en un lugar secreto que solo se revelaba en noches de luna llena. Junto con un grupo de amigos, siguieron las pistas a través de bosques, ruinas y antiguos edificios hasta que encontraron una cueva oculta. Allí hallaron un cofre lleno de libros y cartas antiguas que revelaban secretos históricos olvidados de su ciudad. Esta aventura no solo los unió como grupo, sino que también les enseñó a valorar la historia y la cultura de su tierra, mostrando que a veces el arte puede ser la llave para descubrir grandes tesoros.",
+
+"La amistad inesperada: En un parque de la ciudad, un anciano llamado Pedro y un niño llamado Lucas comenzaron a encontrarse cada día para alimentar a las palomas. A pesar de la diferencia de edad y las barreras generacionales, compartían momentos especiales, intercambiaban historias y se enseñaban mutuamente. Pedro le contaba a Lucas sobre su juventud y las lecciones de vida, mientras el niño le devolvía la alegría y la inocencia que a veces se pierde con el tiempo. Su amistad se convirtió en un ejemplo para los vecinos, mostrando que las conexiones humanas más fuertes no dependen de la edad sino del cariño y el respeto mutuo. Juntos aprendieron que escuchar y compartir pueden construir puentes donde nadie los esperaba, transformando vidas y comunidades con pequeños gestos.",
+
+"La librería mágica: Sofía, una amante de los libros, descubrió una librería escondida en una calle que nunca había visto antes. Lo que hizo única a esta librería era que sus libros no solo se leían, sino que te transportaban dentro de sus historias. Cada vez que Sofía abría un libro, vivía aventuras fantásticas: navegaba mares desconocidos, exploraba castillos encantados o viajaba al futuro. Además de entretenerse, aprendió importantes lecciones sobre valor, amistad y honestidad. Con el tiempo entendió que la magia no residía solo en los libros, sino en cómo usaba esa imaginación para mejorar su vida real. La librería se volvió su refugio, un lugar donde la fantasía y la realidad se mezclaban para inspirar y transformar.",
+
+"El secreto del faro: Carlos era el solitario guardián de un faro antiguo que muchos años había dejado de ser usado para la navegación. Una tormenta terrible lo sorprendió una noche y, en medio del viento y la lluvia, vio una luz misteriosa en el mar. Intrigado, salió a investigar y encontró una pequeña embarcación con varios náufragos atrapados en la tormenta. Gracias a su valentía y conocimiento, logró guiarlos a la orilla con seguridad. Desde ese momento, el faro volvió a ser un símbolo de esperanza y valentía para el pueblo. Carlos comprendió que, aunque su labor parecía insignificante, podía salvar vidas y cambiar destinos con su dedicación.",
+
+"La melodía olvidada: Ana descubrió una vieja partitura mientras ordenaba el ático de su casa. La melodía era dulce, triste y evocadora. Se enteró que esa pieza había sido compuesta por su bisabuela, una pianista talentosa que nunca tuvo la oportunidad de mostrar su arte al mundo. Movida por la emoción, Ana aprendió a tocar la pieza y decidió grabarla para compartirla con su familia y el público. La música despertó recuerdos, emociones y un sentido de identidad que había estado dormido durante generaciones. Así, la melodía olvidada volvió a sonar, uniendo el pasado con el presente a través del poder del arte y la memoria.",
+
+"El sueño de volar: Desde niña, Mateo soñaba con volar como los pájaros que veía en el cielo. Construyó cientos de cometas y planeadores, pero ninguno lograba elevarse realmente. Un día, en un parque, conoció a una anciana que le explicó que volar no solo era un acto físico, sino un estado del alma. Le enseñó a dejar que la mente y el corazón se liberaran de miedos y ataduras. Mateo comprendió entonces que su verdadero vuelo era emocional y espiritual. Desde ese momento, cada vez que sentía alegría y libertad, se imaginaba volando alto, tocando el cielo con sus sueños y dejando atrás las limitaciones.",
+
+"La bicicleta roja: Laura encontró una bicicleta roja abandonada en el parque una mañana de otoño. Decidió llevarla a casa, limpiarla y arreglarla para usarla. Con esa bicicleta, empezó a visitar a su abuelo enfermo que vivía en las afueras del pueblo. Cada paseo era una aventura que la llenaba de reflexión y alegría, y poco a poco, la bicicleta se convirtió en un símbolo de fuerza y amor para ella. A través de esos viajes, Laura descubrió su verdadera pasión por la aventura, la naturaleza y la vida. Aprendió que, a veces, los objetos olvidados pueden transformarse en compañeras de viaje y motores de cambio personal.",
+"El mapa escondido: Durante una remodelación en la antigua casa familiar, Tomás encontró un mapa viejo y arrugado escondido dentro de una pared. El mapa señalaba un lugar misterioso en el bosque cercano que nadie en el pueblo había explorado. Intrigado, organizó una expedición con sus amigos para descubrir qué secretos guardaba aquel rincón olvidado. Tras horas de caminata y varios obstáculos, llegaron a una cueva oculta entre raíces y piedras cubiertas de musgo. Allí encontraron artefactos antiguos, símbolos tallados y restos que hablaban de una civilización perdida. La emoción y el asombro inundaron sus corazones. Esa aventura no solo les mostró la historia oculta de su región, sino que fortaleció su amistad y les enseñó la importancia de conservar el patrimonio. Desde ese día, Tomás y sus amigos se comprometieron a proteger y difundir el legado que habían descubierto, uniendo pasado y presente en un lazo indestructible.",
+
+"La sombra en el espejo: Claudia comenzó a notar que su reflejo en el espejo hacía cosas que ella no hacía. Al principio pensó que era producto de su imaginación, pero pronto comprendió que una sombra atrapada detrás del espejo intentaba comunicarse con ella. Durante días, observó atentamente y captó señales que parecían pedir ayuda. Con valentía, Claudia decidió buscar la manera de liberarla. Descubrió que esa sombra era el espíritu de una mujer que había quedado atrapada allí hacía muchos años por un mal antiguo. Tras realizar un ritual ancestral que aprendió en libros viejos, logró romper la barrera que la retenía. La sombra desapareció en paz, dejando a Claudia con una sensación de alivio y una historia que nunca olvidaría. Esa experiencia le enseñó a respetar lo invisible y valorar la conexión entre mundos.",
+
+"El farol del camino: En un pueblo remoto, un farolero se encargaba de mantener encendida una luz que guiaba a los viajeros durante las noches oscuras. Era un trabajo silencioso y poco reconocido, pero él lo hacía con orgullo. Un día, el farol se apagó misteriosamente y las personas comenzaron a perderse en los caminos, generando miedo y confusión. Preocupado, el farolero emprendió un viaje para encender una luz interior en cada corazón, explicando que la verdadera guía no estaba en un objeto, sino en la esperanza, la confianza y el amor propio. Poco a poco, la luz de cada persona brilló con fuerza, iluminando los senderos y superando la oscuridad. El farolero comprendió que su labor era enseñar a los demás a encontrar su luz, porque la verdadera guía está dentro de uno mismo y no en objetos externos.",
+
+"Las cartas sin enviar: Martina encontró una vieja caja de cartas guardadas en el ático de su abuela. Eran cartas que nunca habían sido enviadas, dirigidas a personas que ya no estaban o a quienes nunca se atrevieron a escribir. Leyendo aquellas palabras cargadas de emociones, arrepentimientos y deseos, Martina comprendió mejor las historias y conflictos de su familia. Aquellas cartas revelaron secretos, confesiones y sentimientos reprimidos que habían creado distancia entre sus miembros. Decidida a cambiar esa realidad, Martina usó lo que aprendió para iniciar conversaciones sinceras y reconciliar viejos rencores. Poco a poco, las heridas comenzaron a sanar y las relaciones familiares se fortalecieron. Gracias a aquellas cartas sin enviar, Martina descubrió que expresar lo que sentimos a tiempo puede cambiar el rumbo de nuestras vidas y de quienes amamos.",
+
+"El último tren: En una estación olvidada y cubierta de polvo, apareció un tren una noche sin anunciarse en los horarios. Los pasajeros que subieron a ese tren descubrieron que viajaban hacia sus sueños y deseos más profundos, lugares donde podían reencontrarse con versiones perdidas de sí mismos. Cada parada representaba una oportunidad para sanar heridas, tomar decisiones importantes y cambiar su destino. Nadie sabía de dónde venía o a dónde iba aquel tren, pero quienes lo abordaban regresaban transformados y con una nueva perspectiva de la vida. El misterio del último tren se convirtió en una leyenda que inspiraba a la gente a buscar sus propios viajes interiores y a confiar en que, aunque el camino sea incierto, siempre hay una oportunidad para renacer y crecer.",
+
+"El collar de perlas: Isabel heredó un collar de perlas que, según la tradición familiar, protegía a quien lo llevaba puesto. Al principio, ella era escéptica y pensaba que solo era una leyenda, pero al ponérselo, empezó a sentir una fuerza nueva y una seguridad que nunca antes había experimentado. Con el tiempo, Isabel enfrentó situaciones difíciles que la hicieron dudar de sí misma, pero cada vez que recordaba el collar, su valentía aumentaba. Pronto entendió que la verdadera protección no venía del objeto en sí, sino de la confianza y el amor propio que el collar simbolizaba. Isabel decidió compartir esta enseñanza con sus amigas y familiares, mostrando que la fuerza más poderosa está dentro de cada persona, aunque a veces necesitemos un símbolo para recordarlo.",
+
+"El diario secreto: Luis encontró el diario de su abuelo mientras limpiaba el desván. Al leerlo, descubrió que su abuelo había vivido aventuras increíbles y secretos que nadie conocía. Desde viajes peligrosos hasta actos de valentía en tiempos difíciles, aquel diario estaba lleno de historias fascinantes. Inspirado por esos relatos, Luis decidió perseguir sus propios sueños con valentía y pasión, entendiendo que la vida es una aventura que hay que aprovechar al máximo. Además, comenzó a documentar sus propias experiencias para dejar un legado para las futuras generaciones. El diario secreto no solo le reveló un pasado olvidado, sino que le impulsó a vivir el presente con determinación y a crear un futuro lleno de historias memorables.",
+
+"Las luces del bosque: Cada noche, en un rincón escondido del bosque, aparecían luces que danzaban entre los árboles. Se decía que eran las almas de los ancestros que cuidaban la tierra y protegían a quienes respetaban la naturaleza. Una niña llamada Sofía, fascinada por esas luces, decidió seguirlas para descubrir su origen. Siguiendo aquel sendero luminoso, llegó a un claro mágico donde encontró criaturas fantásticas que le enseñaron sobre la armonía, el respeto y el amor por el entorno natural. Desde entonces, Sofía se convirtió en una defensora apasionada del bosque y su magia, enseñando a otros a cuidar el planeta y valorar la vida en todas sus formas. Las luces del bosque no solo iluminaban la noche, sino también el corazón de quienes las contemplaban.",
+
+"El café olvidado: En una pequeña cafetería del centro, un barista dejó una taza especial con un mensaje oculto en el fondo: 'Nunca olvides tu valor'. La persona que encontró esa taza comenzó a notar pequeñas señales y coincidencias que le ayudaron a cambiar su vida para mejor. Poco a poco, comenzó a recuperar la confianza perdida y a perseguir sus sueños olvidados. El café olvidado se volvió un símbolo para muchos que necesitaban una palabra de aliento en momentos difíciles. A través de esa simple acción, el barista enseñó que a veces las pequeñas cosas, como un mensaje escondido en una taza, tienen el poder de transformar vidas y devolver la esperanza donde parecía haberse perdido.",
+
+"La sombra del violinista: En una calle antigua de la ciudad, un músico callejero tocaba melodías que parecían venir de otro mundo. La gente que pasaba se detenía hipnotizada por su talento, pero lo que más llamaba la atención era que su sombra parecía bailar sola, contando historias de amor, pérdida y esperanza. Nadie sabía quién era realmente el violinista, ni de dónde venían sus piezas. Algunos decían que era un alma atrapada entre este mundo y el siguiente, que solo encontraba paz al tocar. Otros simplemente disfrutaban de su música sin hacer preguntas. Su arte se volvió una leyenda urbana, recordando a todos que la música tiene el poder de conectar mundos y sanar corazones rotos.",
+
+"La biblioteca olvidada: En un rincón polvoriento de la ciudad, existía una biblioteca que nadie visitaba. Clara, una joven amante de los libros, decidió entrar un día por curiosidad. Allí descubrió libros antiguos que contenían conocimientos y secretos olvidados por generaciones. Cada libro era una ventana a mundos mágicos y aventuras increíbles. Clara comenzó a visitar la biblioteca todos los días, aprendiendo y compartiendo con otros la maravilla de esos textos. Con el tiempo, la biblioteca volvió a abrirse al público, convirtiéndose en un centro de cultura y aprendizaje para toda la comunidad. Clara entendió que el conocimiento es un tesoro que solo se pierde cuando dejamos de buscarlo y compartirlo.",
+
+"El faro del recuerdo: Luis cuidaba un faro solitario en la costa desde hacía años. Para él, el faro no solo era una estructura, sino un símbolo de esperanza para quienes navegaban en la tormenta. Una noche, una fuerte tempestad dañó la luz y el faro quedó apagado. Luis se sintió desesperado, pero con la ayuda de los vecinos logró reparar la luz justo a tiempo para salvar a un barco que estaba a la deriva. Aquella experiencia le enseñó que la luz que uno emite puede salvar vidas y que nunca debemos perder la esperanza, incluso en las peores tormentas.",
+
+"El cuadro que lloraba: Marta compró un cuadro antiguo en una subasta, pero pronto notó que parecía llorar lágrimas invisibles. Intrigada, investigó su historia y descubrió que la pintura representaba a una mujer que había sufrido mucho dolor y que, de alguna manera, sus emociones quedaban atrapadas en el lienzo. Cada vez que Marta se sentía triste, el cuadro lloraba con ella. Con el tiempo, comprendió que el arte puede expresar y liberar emociones profundas, ayudándola a sanar heridas internas. Aquella pintura se volvió su confidente silenciosa, recordándole que está bien sentir y llorar para poder seguir adelante.",
+
+"El tren fantasma: En las noches sin luna, algunos habitantes del pueblo aseguraban ver un tren que cruzaba las vías sin hacer ruido y sin pasajeros visibles. Carlos, un joven curioso, decidió investigar y descubrió que ese tren era una leyenda que representaba a aquellos que nunca llegaron a sus destinos por tragedias antiguas. Movido por la historia, Carlos organizó una ceremonia para recordar y honrar a esas almas, trayendo paz y serenidad a la comunidad. Desde entonces, el tren fantasma desapareció y el pueblo recuperó la tranquilidad, recordando que respetar el pasado es fundamental para construir el futuro.",
+
+"El árbol de los deseos: En un parque, había un árbol al que la gente acudía para colgar pequeños papeles con sus deseos más profundos. Se decía que ese árbol tenía el poder de concederlos si se pedían con sinceridad. Ana, una niña que deseaba la salud de su abuela, escribió una carta y la colgó con esperanza. Semanas después, la abuela comenzó a mejorar milagrosamente. La historia del árbol se extendió y miles de personas comenzaron a acudir, creando una comunidad unida por la fe y la esperanza. El árbol de los deseos se convirtió en símbolo de milagros y la fuerza de los pensamientos positivos.",
+
+"El espejo de los recuerdos: David encontró un espejo antiguo en una tienda de antigüedades. Al mirarse en él, podía ver imágenes de su pasado, momentos olvidados y detalles que ya no recordaba. El espejo le permitió reconectar con su infancia, con sus amigos y con su familia, dándole la oportunidad de sanar viejas heridas. También le mostró futuros posibles, impulsándolo a tomar mejores decisiones. Gracias a ese espejo, David aprendió a valorar el presente, a perdonar y a vivir con esperanza. Entendió que el pasado es un maestro, pero no una prisión, y que el futuro depende de las elecciones que hacemos hoy.",
+
+"El perro sin dueño: Un perro callejero comenzó a seguir a Mariana todos los días hasta que ella decidió adoptarlo. Aquel perro, llamado Max, parecía tener un sexto sentido para ayudarla en momentos difíciles. Cada vez que Mariana se sentía sola o triste, Max estaba allí, brindándole consuelo y compañía. Con el tiempo, Max se convirtió en un héroe local al rescatar a varios niños perdidos en el bosque cercano. La historia del perro sin dueño demostró que el amor y la lealtad pueden encontrarse en las formas más inesperadas y que a veces, los más necesitados son quienes más pueden dar.",
+
+"El mensaje en la botella: En la orilla del mar, Lucía encontró una botella con un mensaje dentro. La carta estaba escrita por alguien que buscaba ayuda y compañía. Movida por la compasión, Lucía respondió enviando una carta a la dirección que encontró en el papel. Así comenzó una correspondencia que duró años, creando una amistad profunda entre dos desconocidos. Esa experiencia le enseñó que la comunicación y el cariño pueden cruzar distancias y barreras, y que un pequeño gesto puede cambiar la vida de alguien para siempre.",
+
+"La casa de las velas: En un pueblo pequeño, existía una casa que siempre estaba iluminada por cientos de velas, sin importar la hora. La gente decía que allí vivía una mujer que cuidaba de las almas perdidas y ayudaba a quienes buscaban guía. Marta decidió visitarla y encontró a una anciana que le enseñó sobre la importancia de la luz interior, la bondad y la empatía. Aquella visita cambió la vida de Marta, inspirándola a ser más compasiva y a ayudar a otros. La casa de las velas se volvió un símbolo de esperanza y amor en la comunidad.",
+
+"El farolero de sueños: Cada noche, Pedro encendía faroles que liberaban pequeñas luces hacia el cielo. Decía que eran sueños que enviaba para proteger a su pueblo y darles valor para enfrentar sus miedos. La gente empezó a creer en esa magia y a compartir sus propios deseos y esperanzas. Los faroles iluminaban no solo el cielo, sino también los corazones de todos. Pedro enseñó que el poder de un sueño puede transformar la realidad y que cuando se comparte con amor, el mundo se vuelve un lugar mejor.",
+
+"El viejo reloj de la estación: En una estación de tren, un reloj antiguo marcaba la hora exacta, aunque hacía años que estaba roto. Los viajeros lo usaban como referencia y sentían que el reloj les daba calma y seguridad. Un día, un relojero decidió arreglarlo y al hacerlo, descubrió un compartimento secreto con cartas y recuerdos de personas que habían pasado por allí. Esas cartas contaban historias de amor, despedidas y encuentros. El reloj se volvió un símbolo de tiempos pasados y futuros, recordando que el tiempo no solo mide segundos, sino momentos que cambian vidas.",
+
+"La canción del viento: En una aldea, se decía que el viento traía una canción especial que sólo los corazones puros podían escuchar. Clara, una niña curiosa, logró escucharla y decidió seguirla. La melodía la llevó a un valle escondido donde encontró una comunidad que vivía en armonía con la naturaleza y la música. Clara aprendió que la verdadera música está en la conexión con el mundo y que escuchar con el corazón puede abrir puertas mágicas que el oído no alcanza.",
+
+"El puente de las promesas: Dos pueblos separados por un río tenían un puente antiguo que había sido olvidado y abandonado. Una pareja decidió restaurarlo como símbolo de unión y reconciliación. Durante la reconstrucción, los habitantes comenzaron a acercarse y compartir historias, dejando atrás viejas rencillas. El puente se convirtió en un lugar de encuentro, festejos y recuerdos compartidos. Esa obra mostró que reconstruir puentes, tanto físicos como emocionales, es vital para sanar y crecer juntos.",
+
+"Las huellas en la arena: Un anciano caminaba por la playa dejando huellas que, a medida que avanzaba, se volvían estrellas brillantes. Un niño curioso lo siguió y aprendió que esas huellas representaban actos de bondad que habían cambiado el mundo. Inspirado, el niño empezó a hacer sus propias huellas, entendiendo que cada pequeño gesto de amor puede iluminar la vida de otros y dejar un legado eterno.",
+
+"El faro de cristal: En una isla remota, un faro hecho completamente de cristal reflejaba la luz del sol y la luna creando arcoíris que podían verse desde kilómetros. La gente decía que ese faro tenía el poder de sanar corazones rotos y traer paz a las almas inquietas. Cada año, personas de todo el mundo acudían a la isla para contemplar esa maravilla y encontrar consuelo. El faro de cristal enseñaba que la belleza puede ser un puente hacia la esperanza y la renovación.",
+
+"El laberinto de las mariposas: En un jardín secreto, había un laberinto donde vivían miles de mariposas de colores. Quienes se aventuraban a entrar descubrían que cada mariposa representaba un deseo o un sueño. Al encontrar la salida, sentían que sus deseos se hacían realidad. Este lugar mágico ayudó a muchos a reencontrarse con sus anhelos y a tener la valentía para perseguirlos, demostrando que la esperanza y la fe pueden guiarnos en los momentos más confusos.",
+
+"La muñeca de porcelana: Sofía encontró una muñeca de porcelana en el ático de su abuela. La muñeca parecía tener una mirada triste, y Sofía decidió cuidarla con mucho amor. Con el tiempo, descubrió que la muñeca guardaba un secreto: contenía mensajes de mujeres que habían vivido hace mucho tiempo, sus sueños y esperanzas. Inspirada, Sofía decidió escribir sus propios deseos y dejar mensajes para futuras generaciones. La muñeca se convirtió en un puente entre épocas, recordando que nuestras historias deben ser contadas y valoradas.",
+
+"El río que cantaba: Cerca de un pueblo, había un río que emitía un sonido musical al fluir entre las piedras. La gente decía que el río cantaba para quienes necesitaban consuelo. Un día, un joven músico fue al río buscando inspiración y compuso la melodía más hermosa que había creado. Esa música llevó paz a todo el pueblo y enseñó que la naturaleza siempre tiene una voz que escuchar, capaz de sanar y despertar emociones profundas.",
+
+"La pluma mágica: Un escritor frustrado encontró una pluma antigua que, al usarla, hacía que sus historias cobraran vida. Cada palabra escrita se convertía en realidad en pequeñas dosis, transformando su vida y la de quienes leían sus relatos. Pronto comprendió que la verdadera magia estaba en su creatividad y en cómo usaba sus palabras para inspirar y cambiar el mundo, mostrando que todos tenemos el poder de crear con nuestra imaginación.",
+
+"El árbol de los recuerdos: En el centro de un parque, había un árbol enorme donde la gente colgaba fotos, cartas y objetos que representaban momentos importantes de sus vidas. Ese árbol crecía más fuerte con cada recuerdo, convirtiéndose en símbolo de comunidad y memoria colectiva. Las generaciones aprendieron a valorar su historia, a celebrar sus raíces y a compartir su legado, demostrando que los recuerdos son el alma de quienes somos y de donde venimos.",
+
+    ];
+
+    function generarHistoria() {
+      const indice = Math.floor(Math.random() * historias.length);
+      document.getElementById("historia").textContent = historias[indice];
+    }
+
+    function copiarHistoria() {
+      const texto = document.getElementById("historia").textContent;
+      if (texto === "Presiona el botón para ver una historia...") {
+        alert("Primero genera una historia para copiar.");
+        return;
+      }
+
+      navigator.clipboard.writeText(texto).then(() => {
+        alert("La historia ha sido copiada.");
+      }).catch(() => {
+        alert("Error al copiar la historia.");
+      });
+    }
+
+    let likes = localStorage.getItem('likes') ? parseInt(localStorage.getItem('likes')) : 0;
+    document.getElementById("likeCount").textContent = likes;
+
+    function sumarLike() {
+  likes++;
+  document.getElementById("likeCount").textContent = likes;
+  localStorage.setItem('likes', likes); // Guardamos el nuevo valor
+    }
+
+  </script>
+
+</body>
+</html>
+
+
